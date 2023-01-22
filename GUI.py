@@ -7,5 +7,3 @@ data in bar graph form.
 
 import tkinter as tk
 import matplotlib as mpl
-
-#Testing new branch commit
