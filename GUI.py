@@ -137,13 +137,9 @@ class GUI:
         justPass_radio_btn = tk.Radiobutton(graph_filter_frame, text="Just Pass - D's and F's", font=('Arial', 12), variable=self.mode, value=2)
         justPass_radio_btn.grid(row=2, column=1)
 
-        # Generate Graph Label
-        generate_label = tk.Label(graph_filter_frame, text="Generate Graph", font=('Arial', 20))
-        generate_label.grid(row=0, column=2)
-
         # Generate Graph Button
-        generate_label_btn = tk.Button(graph_filter_frame, text="Generate", font=('Arial', 16))
-        generate_label_btn.grid(row=1, column=2)
+        generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20))
+        generate_graph_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
 
         #Give all widgets in from that same padding
         for widget in graph_filter_frame.winfo_children():
