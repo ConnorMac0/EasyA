@@ -1,9 +1,18 @@
+'''
+Description:
+CS 422 Project 1, this file will read data from a JSON file
+and output a UI with a graph displaying the data for easy
+comparison.
+'''
+
+# Import statements for creating and displaying graphs
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import tkinter as tk
 
+# Arbitrary data
 data = [{'name': 'item1', 'value': 5},
         {'name': 'item2', 'value': 10},
         {'name': 'item3', 'value': 15},
