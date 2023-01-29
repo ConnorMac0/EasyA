@@ -45,26 +45,41 @@ def get_class_dict():
 
     return site_dict
 
-    
+def get_faculty_dict():
+    # Load webpage with data of regular faculty from 2014-2015.
+    # Turn webpage into soup.
+    # Returns a list containing only the names from regular faculty list.
 
+    html_doc = requests.get(
+        "http://web.archive.org/web/20141107201434/http://catalog.uoregon.edu/arts_sciences/computerandinfoscience/#facultytext")
+    soup = BeautifulSoup(html_doc.content, 'html.parser')
+    fac = soup.find(id="facultytextcontainer")
+
+    titles = fac.find_all("p")
+
+    results = []
+    for title in titles:
+        name = title.text
+        if "," in name and name not in results:
+            results.append(name[:name.index(",")])
+
+    return results
 
 if __name__ == "__main__": # TEST THIS PROGRAM
-    test_dict = get_class_dict()
-    i = 0
-    print("BEGIN TESTING...")
-    for class_code in test_dict:
-        if i > 2:
-            print("END TESTING...")
-            break
-        print("The current class code is: " + str(class_code))
-        print("It has the contents: " + str(test_dict[class_code]))
-        print("The dictionary contains: " + str(test_dict[class_code][0]['TERM_DESC']))
-        i += 1
+    faculty = get_faculty_dict()
 
+    for item in faculty:
+        print(item)
 
-
-
-
+    # test_dict = get_class_dict()
+    # i = 0
+    # print("BEGIN TESTING...")
+    # for class_code in test_dict:
+    #     if i > 0:
+    #         print("END TESTING...")
+    #         break
+    #     print("The current class code is: " + str(class_code))
+    #     print("It has the contents: " + str(test_dict[class_code]))
+    #     print("The dictionary contains: " + str(test_dict[class_code][0]['TERM_DESC']))
+    #     i += 1
     
-
-
