@@ -83,7 +83,7 @@ class GUI:
         course_info_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
         #Department 
-        dept_label = tk.Label(course_info_frame, text="Deptartment", font=('Arial', 20))
+        dept_label = tk.Label(course_info_frame, text="Department", font=('Arial', 20))
         dept_label.grid(row=0, column=0)
 
         #Dropdown menu for department selection including all natural science departments
@@ -165,8 +165,8 @@ class GUI:
         instructions_intro.pack()
 
         # Class data entry instructions
-        class_data_instructions = tk.Label(user_info_frame, text='- Enter in the instructors name, the class code, and the crn of the class', font=('Arial', 12))
-        class_data_instructions.pack()
+        course_data_instructions = tk.Label(user_info_frame, text='- Enter in the instructors name, the course code, and the crn of the class', font=('Arial', 12))
+        course_data_instructions.pack()
 
         # Class data entry instructions
         grade_perc_instructions = tk.Label(user_info_frame, text="- Add the percentage of A's, D's, and F's given by the instructor", font=('Arial', 12))
@@ -179,7 +179,7 @@ class GUI:
         #-----------------Class Data Frame---------------------
 
         # Class data entry frame
-        class_data_frame = tk.LabelFrame(SysAdminPage, text="Class Data", font=('Arial', 16))
+        class_data_frame = tk.LabelFrame(SysAdminPage, text="Course Data", font=('Arial', 16))
         class_data_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
         # Instructor entry label
@@ -191,12 +191,12 @@ class GUI:
         inst_name_entry.grid(row=1, column=0)
 
         # Class code entry label
-        class_code_label = tk.Label(class_data_frame, text="Class Code", font=('Arial', 20))
-        class_code_label.grid(row=0, column=1)
+        course_code_label = tk.Label(class_data_frame, text="Course Code", font=('Arial', 20))
+        course_code_label.grid(row=0, column=1)
         
         # crn entry box
-        class_code_entry = ttk.Entry(class_data_frame)
-        class_code_entry.grid(row=1, column=1)
+        course_code_entry = ttk.Entry(class_data_frame)
+        course_code_entry.grid(row=1, column=1)
 
         # crn number entry label
         crn_label = tk.Label(class_data_frame, text="CRN", font=('Arial', 20))
