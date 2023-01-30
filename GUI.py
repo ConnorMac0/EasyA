@@ -106,7 +106,7 @@ class GUI:
         spec_course_level_entry = ttk.Entry(course_info_frame)
         spec_course_level_entry.grid(row=1, column=2)
 
-        #Give all widgets in from that same padding
+        # Give all widgets in this frame the same padding
         for widget in course_info_frame.winfo_children():
             widget.grid_configure(padx=20, pady=10)
 
@@ -137,22 +137,116 @@ class GUI:
         justPass_radio_btn = tk.Radiobutton(graph_filter_frame, text="Just Pass - D's and F's", font=('Arial', 12), variable=self.mode, value=2)
         justPass_radio_btn.grid(row=2, column=1)
 
+        # Give all widgets in this frame the same padding
+        for widget in graph_filter_frame.winfo_children():
+            widget.grid_configure(padx=20, pady=10)
+
+        #-----------------Generate Graph Button---------------------
+
         # Generate Graph Button
         generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20))
         generate_graph_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
 
-        #Give all widgets in from that same padding
-        for widget in graph_filter_frame.winfo_children():
-            widget.grid_configure(padx=20, pady=10)
-
-    #Function contaning system admin page
+    # Function contaning system admin page
     def adminPage(self):
         
+        #System admin page
         SysAdminPage = tk.Toplevel()
         SysAdminPage.title("EasyA/System Admin")
-        SysAdminPage.geometry("400x400")
         
-        headlabel1 = tk.Label(SysAdminPage, text="System Admin Page", font=('Arial', 25))
-        headlabel1.pack(padx=10, pady=10)
+         #-----------------Program Use Description Frame---------------------
 
+        # Frame containing the instructions for how to update data
+        user_info_frame = tk.LabelFrame(SysAdminPage, text="System Admin Instructions", font=('Arial', 16))
+        user_info_frame.grid(row=0, column=0, sticky="news", padx=10, pady=10)
+
+
+        instructions_intro = tk.Label(user_info_frame, text='To add data to the system or update existing data:', font=('Arial', 12))
+        instructions_intro.pack()
+
+        # Class data entry instructions
+        class_data_instructions = tk.Label(user_info_frame, text='- Enter in the instructors name, the class code, and the crn of the class', font=('Arial', 12))
+        class_data_instructions.pack()
+
+        # Class data entry instructions
+        grade_perc_instructions = tk.Label(user_info_frame, text="- Add the percentage of A's, D's, and F's given by the instructor", font=('Arial', 12))
+        grade_perc_instructions.pack()
+
+        # Entry instructions
+        entry_instructions = tk.Label(user_info_frame, text='- Click "Enter Data" at the bottom to enter the provided data into the system', font=('Arial', 12))
+        entry_instructions.pack()
+
+        #-----------------Class Data Frame---------------------
+
+        # Class data entry frame
+        class_data_frame = tk.LabelFrame(SysAdminPage, text="Class Data", font=('Arial', 16))
+        class_data_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
+
+        # Instructor entry label
+        inst_name_label = tk.Label(class_data_frame, text="Instructor Name", font=('Arial', 20))
+        inst_name_label.grid(row=0, column=0)
+        
+        # Instructor name entry box
+        inst_name_entry = ttk.Entry(class_data_frame)
+        inst_name_entry.grid(row=1, column=0)
+
+        # Class code entry label
+        class_code_label = tk.Label(class_data_frame, text="Class Code", font=('Arial', 20))
+        class_code_label.grid(row=0, column=1)
+        
+        # crn entry box
+        class_code_entry = ttk.Entry(class_data_frame)
+        class_code_entry.grid(row=1, column=1)
+
+        # crn number entry label
+        crn_label = tk.Label(class_data_frame, text="CRN", font=('Arial', 20))
+        crn_label.grid(row=0, column=2)
+        
+        # crn entry box
+        crn_entry = ttk.Entry(class_data_frame)
+        crn_entry.grid(row=1, column=2)
+
+        # Give all widgets in this frame the same padding
+        for widget in class_data_frame.winfo_children():
+            widget.grid_configure(padx=20, pady=10)
+
+        #-----------------Grade Data Frame---------------------
+
+        # Grade data frame
+        grade_data_frame = tk.LabelFrame(SysAdminPage, text="Grade Data", font=('Arial', 16))
+        grade_data_frame.grid(row=2, column=0, sticky="news", padx=10, pady=10)
+
+        # A percentage entry label
+        aperc_label = tk.Label(grade_data_frame, text="A percentage", font=('Arial', 20))
+        aperc_label.grid(row=0, column=0)
+        
+        # A percentage entry box
+        aperc_entry = ttk.Entry(grade_data_frame)
+        aperc_entry.grid(row=1, column=0)
+
+        # D percentage entry label
+        dperc_label = tk.Label(grade_data_frame, text="D percentage", font=('Arial', 20))
+        dperc_label.grid(row=0, column=1)
+        
+        # D percentage entry box
+        dperc_entry = ttk.Entry(grade_data_frame)
+        dperc_entry.grid(row=1, column=1)
+
+        # F percentage entry label
+        fperc_label = tk.Label(grade_data_frame, text="F percentage", font=('Arial', 20))
+        fperc_label.grid(row=0, column=2)
+        
+        # F percentage entry box
+        fperc_entry = ttk.Entry(grade_data_frame)
+        fperc_entry.grid(row=1, column=2)
+
+        # Give all widgets in this frame the same padding
+        for widget in grade_data_frame.winfo_children():
+            widget.grid_configure(padx=20, pady=10)
+
+        #-----------------Enter Data Button---------------------
+
+        # Generate Graph Button
+        enter_data_btn = tk.Button(SysAdminPage, text="Enter Data", font=('Arial', 20))
+        enter_data_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
 GUI()
