@@ -15,9 +15,8 @@ class GUI:
         self.root.title("EasyA")
 
         # Natural Science department options
-        self.classes = ["Data Science", "Earth Sciences", "Human Physiology", "Neuroscience", "Psychology",
-                        "Multidisciplinary Science", "Mathematics", "Physics", "Biology", "Computer Science", 
-                        "Chemistry and Biochemistry"]
+        self.classes = ["Biology", "Chemistry and Biochemistry", "Computer Science", "Data Science", "Earth Sciences", "Human Physiology", "Mathematics", 
+                        "Multidisciplinary Science", "Neuroscience", "Physics", "Psychology"]
         
         # Course level options
         self.course_levels = ["All 100-Level", "All 200-Level", "All 300-Level", "All 400-Level", "All 500-Level", "All 600-Level"]
