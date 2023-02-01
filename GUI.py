@@ -8,11 +8,6 @@ data in bar graph form.
 import tkinter as tk
 from tkinter import ttk
 
-#--------------GOALS-------------
-# Design admin layout
-# Implement admin layout for data updating
-# Change so multiple windows are opened, change main window after user selection
-
 class GUI:
     # Initialize the landing page
     def __init__(self):
