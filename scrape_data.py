@@ -136,11 +136,17 @@ def add_regular_faculty_to_db(faculty_file_name, database_file_name):
     #open database, convert to python dictionary, add all regular faculty then
     # after thats all done, rewrite the database from scratch with the updated db.
     with open(database_file_name, "r") as db_file:
-        db = json.loads(db_file) # convert database.json to python dictionary
+        db = json.loads(db_file.read()) # convert database.json to python dictionary
         with open(faculty_file_name, "r") as fac_name_file:
             # first get a teacher's name from the faculty list in form "First M. Last"
+            TEST_COUNTER = 0
             for fac_name in fac_name_file:
+                #TEST_COUNTER += 1
+                #print("TEST ITERATION #" + str(TEST_COUNTER))
+                #if TEST_COUNTER > 30: 
+                #    return
                 name_tok = fac_name.split()
+                #print("     name_tok: " + str(name_tok))
                 # Next iterate through each class in the database by iterating
                 # through each class_code in outer_dic, then iterate through
                 # each class in the outer_dics list, and then check each inner_dic 
@@ -151,13 +157,15 @@ def add_regular_faculty_to_db(faculty_file_name, database_file_name):
                 for class_code in db:
                     for class_list_element in db[class_code]:
                         db_teacher_name = class_list_element["instructor"]
+                        #print("     db_teacher_name: " + str(db_teacher_name))
                         toks_in_name = 0
                         for tok in name_tok:
                             if tok in db_teacher_name:
                                 toks_in_name += 1
                         if toks_in_name > 1: # at least 2 name parts match so mark regular
                             class_list_element["fregular"] = "True"
-                        else:
+                            #print("     -> Marking 'fregular' as 'True'!")
+                        elif "fregular" not in class_list_element:
                             class_list_element["fregular"] = "False"
     write_class_dict_db(database_file_name, db)
                                 
@@ -188,7 +196,7 @@ if __name__ == "__main__": # Write class dictionary to json database file
 
     # Test Update DB by adding regular faculty to its copy
     faculty_file_name = "regular_faculty_names.txt"
-    database_file_name = "class_database_copy.json"
+    database_file_name = "class_database.json"
     add_regular_faculty_to_db(faculty_file_name, database_file_name)
 
 
