@@ -7,12 +7,16 @@ data in bar graph form.
 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 
 class GUI:
     # Initialize the landing page
     def __init__(self):
         self.root = tk.Tk()             
         self.root.title("EasyA")
+
+        # New data file
+        self.fp = None
 
         # Natural Science department options
         self.classes = ["Biology", "Chemistry and Biochemistry", "Computer Science", "Data Science", "Earth Sciences", "Human Physiology", "Mathematics", 
@@ -141,6 +145,18 @@ class GUI:
         generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20))
         generate_graph_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
 
+    # Function to open the uploaded csv file
+    def open_file(self):
+        self.fp = filedialog.askopenfilename(initialdir='/Desktop', title='Select A File', filetypes=[('JSON Files', '*.json')])
+
+    # Function that enters data from the uploaded csv file
+    def enter_data(self):
+        if self.fp == None:
+            print("Error: No file uploaded")
+            return None
+        fp = open(self.fp, "r")
+        fp.close()
+
     # Function contaning system admin page
     def adminPage(self):
         
@@ -148,99 +164,46 @@ class GUI:
         SysAdminPage = tk.Toplevel()
         SysAdminPage.title("EasyA/System Admin")
         
-         #-----------------Program Use Description Frame---------------------
+        #-----------------Generate Graph Button---------------------
 
         # Frame containing the instructions for how to update data
-        user_info_frame = tk.LabelFrame(SysAdminPage, text="System Admin Instructions", font=('Arial', 16))
-        user_info_frame.grid(row=0, column=0, sticky="news", padx=10, pady=10)
+        admin_info_frame = tk.LabelFrame(SysAdminPage, text="System Admin Instructions", font=('Arial', 16))
+        admin_info_frame.grid(row=0, column=0, sticky="news", padx=10, pady=10)
 
-
-        instructions_intro = tk.Label(user_info_frame, text='To add data to the system or update existing data:', font=('Arial', 12))
+        # Admin instructions
+        instructions_intro = tk.Label(admin_info_frame, text='To add data to the system:', font=('Arial', 12))
         instructions_intro.pack()
 
-        # Class data entry instructions
-        course_data_instructions = tk.Label(user_info_frame, text='- Enter in the instructors name, the course code, and the crn of the class', font=('Arial', 12))
-        course_data_instructions.pack()
+        # Upload instructions
+        upload_inst = tk.Label(admin_info_frame, text='- Click the "Upload" button to select the csv data file you want to add to the system', font=('Arial', 12))
+        upload_inst.pack()
 
-        # Class data entry instructions
-        grade_perc_instructions = tk.Label(user_info_frame, text="- Add the percentage of A's, D's, and F's given by the instructor", font=('Arial', 12))
-        grade_perc_instructions.pack()
+        # enter instructions
+        enter_inst = tk.Label(admin_info_frame, text='- Click the "Enter Data" button to add the file data into the system', font=('Arial', 12))
+        enter_inst.pack()
 
-        # Entry instructions
-        entry_instructions = tk.Label(user_info_frame, text='- Click "Enter Data" at the bottom to enter the provided data into the system', font=('Arial', 12))
-        entry_instructions.pack()
+        #-----------------Data Entry Frame---------------------
 
-        #-----------------Class Data Frame---------------------
+        # Frame containing file selection and data entry
+        data_entry_frame = tk.LabelFrame(SysAdminPage, text="Data Entry", font=('Arial', 16))
+        data_entry_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
-        # Class data entry frame
-        class_data_frame = tk.LabelFrame(SysAdminPage, text="Course Data", font=('Arial', 16))
-        class_data_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
+        # Upload Button Label
+        upload_label = tk.Label(data_entry_frame, text="Upload CSV File", font=('Arial', 20))
+        upload_label.grid(row=0, column=0)
 
-        # Instructor entry label
-        inst_name_label = tk.Label(class_data_frame, text="Instructor Name", font=('Arial', 20))
-        inst_name_label.grid(row=0, column=0)
-        
-        # Instructor name entry box
-        inst_name_entry = ttk.Entry(class_data_frame)
-        inst_name_entry.grid(row=1, column=0)
-
-        # Class code entry label
-        course_code_label = tk.Label(class_data_frame, text="Course Code", font=('Arial', 20))
-        course_code_label.grid(row=0, column=1)
-        
-        # crn entry box
-        course_code_entry = ttk.Entry(class_data_frame)
-        course_code_entry.grid(row=1, column=1)
-
-        # crn number entry label
-        crn_label = tk.Label(class_data_frame, text="CRN", font=('Arial', 20))
-        crn_label.grid(row=0, column=2)
-        
-        # crn entry box
-        crn_entry = ttk.Entry(class_data_frame)
-        crn_entry.grid(row=1, column=2)
+        # Upload Button
+        upload_btn = tk.Button(data_entry_frame, text="Upload", font=('Arial', 20), command=self.open_file)
+        upload_btn.grid(row=0, column=1)
 
         # Give all widgets in this frame the same padding
-        for widget in class_data_frame.winfo_children():
-            widget.grid_configure(padx=20, pady=10)
-
-        #-----------------Grade Data Frame---------------------
-
-        # Grade data frame
-        grade_data_frame = tk.LabelFrame(SysAdminPage, text="Grade Data", font=('Arial', 16))
-        grade_data_frame.grid(row=2, column=0, sticky="news", padx=10, pady=10)
-
-        # A percentage entry label
-        aperc_label = tk.Label(grade_data_frame, text="A percentage", font=('Arial', 20))
-        aperc_label.grid(row=0, column=0)
-        
-        # A percentage entry box
-        aperc_entry = ttk.Entry(grade_data_frame)
-        aperc_entry.grid(row=1, column=0)
-
-        # D percentage entry label
-        dperc_label = tk.Label(grade_data_frame, text="D percentage", font=('Arial', 20))
-        dperc_label.grid(row=0, column=1)
-        
-        # D percentage entry box
-        dperc_entry = ttk.Entry(grade_data_frame)
-        dperc_entry.grid(row=1, column=1)
-
-        # F percentage entry label
-        fperc_label = tk.Label(grade_data_frame, text="F percentage", font=('Arial', 20))
-        fperc_label.grid(row=0, column=2)
-        
-        # F percentage entry box
-        fperc_entry = ttk.Entry(grade_data_frame)
-        fperc_entry.grid(row=1, column=2)
-
-        # Give all widgets in this frame the same padding
-        for widget in grade_data_frame.winfo_children():
+        for widget in data_entry_frame.winfo_children():
             widget.grid_configure(padx=20, pady=10)
 
         #-----------------Enter Data Button---------------------
 
-        # Generate Graph Button
-        enter_data_btn = tk.Button(SysAdminPage, text="Enter Data", font=('Arial', 20))
+        # Enter Data Button
+        enter_data_btn = tk.Button(SysAdminPage, text="Enter Data", font=('Arial', 20), command=self.enter_data)
         enter_data_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
+
 GUI()
