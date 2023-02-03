@@ -19,14 +19,22 @@ class GUI:
         self.fp = None
 
         # Natural Science department options
-        self.classes = ["Biology", "Chemistry and Biochemistry", "Computer Science", "Data Science", "Earth Sciences", "Human Physiology", "Mathematics", 
-                        "Multidisciplinary Science", "Neuroscience", "Physics", "Psychology"]
-        
+        self.department = ["Anthropology", "Biology", "Chemistry and Biochemistry", "Computer Science", "Data Science", 
+                        "Earth Sciences", "Geography", "Human Physiology", "Mathematics", "Neuroscience", "Physics", "Psychology"]
+        # Department codes
+        self.dept_code = ["ANTH", "BI", "CH", "CIS", "DSC", "GEOL", "GEOG", "HPHY", "MATH", "NEUR", "PHYS", "PSY"]
+
         # Course level options
         self.course_levels = ["All 100-Level", "All 200-Level", "All 300-Level", "All 400-Level", "All 500-Level", "All 600-Level"]
+        self.specific_course = tk.StringVar()
 
+        # Department and course level variables
+        self.select_dept = tk.StringVar()
+        self.select_level = tk.StringVar()
+        
         # Graph mode radio button variable
         self.mode = tk.IntVar()
+        self.fac_type = tk.IntVar()
 
         # Itroduction header of landing page
         self.headlabel1 = tk.Label(self.root, text="Hello! And Weclome To The EasyA Program", font=('Arial', 20))
@@ -47,8 +55,38 @@ class GUI:
         # GUI main loop
         self.root.mainloop()
 
+    # Function that generates graph
+    def generateGraph(self):
+
+        # Error checking for missing department
+        if self.select_dept.get() == '':
+            print("ERROR: Please select a department")
+            return 0
+        
+        # Error checking for course level or specific course number
+        if (self.select_level.get() == '') and (self.specific_course.get() == ''):
+            print("ERROR: Please select a cource level or specific course number")
+            return 0
+        
+        # Turning the selected department name into department code
+        dept_code = self.department.index(self.select_dept.get())
+        print(self.dept_code[dept_code])
+
+        # Use course levels if no specific course number is given
+        if self.specific_course.get() == '':
+            print(self.course_levels.index(self.select_level.get())+1)
+
+        # Using specific course level only if it is not blank
+        if self.specific_course.get() != '':
+            print(self.specific_course.get())
+        
+        # Mode and faculty type selection
+        print(self.mode.get())
+        print(self.fac_type.get())
+
     # Function containing student page
     def studentPage(self):
+        
         # Student Page
         UserPage = tk.Toplevel()
         UserPage.title("EasyA/Student")
@@ -76,32 +114,32 @@ class GUI:
 
         #-----------------Course Selection Info Frame---------------------
 
-        #Frame containing the info for course selection
+        # Frame containing the info for course selection
         course_info_frame = tk.LabelFrame(UserPage, text="Course Selection", font=('Arial', 16))
         course_info_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
-        #Department 
+        # Department 
         dept_label = tk.Label(course_info_frame, text="Department", font=('Arial', 20))
         dept_label.grid(row=0, column=0)
 
-        #Dropdown menu for department selection including all natural science departments
-        dept_dropdown = ttk.Combobox(course_info_frame, values=self.classes)
+        # Dropdown menu for department selection including all natural science departments
+        dept_dropdown = ttk.Combobox(course_info_frame, state='readonly', values=self.department, textvariable=self.select_dept)
         dept_dropdown.grid(row=1, column=0)
 
-        #Course Level
+        # Course Level
         course_level_label = tk.Label(course_info_frame, text="Course Level", font=('Arial', 20))
         course_level_label.grid(row=0, column=1)
 
-        #Dropdown menu for course level selection from 100 to 600
-        course_level_dropdown = ttk.Combobox(course_info_frame, values=self.course_levels)
+        # Dropdown menu for course level selection from 100 to 600
+        course_level_dropdown = ttk.Combobox(course_info_frame, state='readonly', values=self.course_levels, textvariable=self.select_level)
         course_level_dropdown.grid(row=1, column=1)
 
-        #Specific Course Level
+        # Specific Course Level
         spec_course_level_label = tk.Label(course_info_frame, text="Specific Course Level", font=('Arial', 20))
         spec_course_level_label.grid(row=0, column=2)
 
-        #Text entry box that allows a user to search for a specific course level (111, 112, ...)
-        spec_course_level_entry = ttk.Entry(course_info_frame)
+        # Text entry box that allows a user to search for a specific course level (111, 112, ...)
+        spec_course_level_entry = ttk.Entry(course_info_frame, textvariable=self.specific_course)
         spec_course_level_entry.grid(row=1, column=2)
 
         # Give all widgets in this frame the same padding
@@ -119,7 +157,7 @@ class GUI:
         instructor_label.grid(row=0, column=0)
 
         # Instructor selection checkbox
-        instructor_checkbox = tk.Checkbutton(graph_filter_frame, text="Just Regular Faculty", font=('Arial', 12))
+        instructor_checkbox = tk.Checkbutton(graph_filter_frame, text="Just Regular Faculty", font=('Arial', 12), variable=self.fac_type)
         instructor_checkbox.grid(row=1, column=0)
 
         # Graph mode label
@@ -128,11 +166,11 @@ class GUI:
 
         # Radio buttons that toggle between graph data modes
         # EasyA mode radio button
-        easyA_radio_btn = tk.Radiobutton(graph_filter_frame, text="EasyA - Only A's", font=('Arial', 12), variable=self.mode, value=1)
+        easyA_radio_btn = tk.Radiobutton(graph_filter_frame, text="EasyA - Only A's", font=('Arial', 12), variable=self.mode, value=0)
         easyA_radio_btn.grid(row=1, column=1)
 
         # Just Pass mode radio button
-        justPass_radio_btn = tk.Radiobutton(graph_filter_frame, text="Just Pass - D's and F's", font=('Arial', 12), variable=self.mode, value=2)
+        justPass_radio_btn = tk.Radiobutton(graph_filter_frame, text="Just Pass - D's and F's", font=('Arial', 12), variable=self.mode, value=1)
         justPass_radio_btn.grid(row=2, column=1)
 
         # Give all widgets in this frame the same padding
@@ -142,7 +180,7 @@ class GUI:
         #-----------------Generate Graph Button---------------------
 
         # Generate Graph Button
-        generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20))
+        generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20), command=self.generateGraph)
         generate_graph_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
 
     # Function to open the uploaded csv file
@@ -155,6 +193,7 @@ class GUI:
             print("Error: No file uploaded")
             return None
         fp = open(self.fp, "r")
+        print(fp.read())
         fp.close()
 
     # Function contaning system admin page
