@@ -40,9 +40,22 @@ class GUI:
         self.headlabel1 = tk.Label(self.root, text="Hello! And Weclome To The EasyA Program", font=('Arial', 20))
         self.headlabel1.pack(padx=10, pady=10)
 
-        # Itroduction header of landing page
-        self.headlabel2 = tk.Label(self.root, text="Please Select Whether You Are A:", font=('Arial', 18))
+        # Header explaining where data came from, how its limited, and the years included
+        self.headlabel2 = tk.Label(self.root, text="The data included in this program was initially copied from https://emeraldmediagroup.github.io/grade-data/," + 
+        " the data was copied on 01/15/2023, it includes class data from 2013-2016", font=('Arial', 10))
         self.headlabel2.pack(padx=10, pady=10)
+
+        # Header explaining where data came from, how its limited, and the years included
+        self.headlabel3 = tk.Label(self.root, text='(ATTENTION) This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 10))
+        self.headlabel3.pack(padx=10, pady=10)
+
+        # Header explaining where data came from, how its limited, and the years included
+        self.headlabel3 = tk.Label(self.root, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 10))
+        self.headlabel3.pack(padx=10, pady=10)
+
+        # Itroduction header of landing page
+        self.headlabel4 = tk.Label(self.root, text="To Begin, Please Select Whether You Are A:", font=('Arial', 18))
+        self.headlabel4.pack(padx=10, pady=10)
 
         # Button to select the student user and open student user page
         self.stuBtn = tk.Button(self.root, text="Student", font=('Arial', 18), command=self.studentPage)
