@@ -7,16 +7,33 @@ comparison.
 
 # Import statements for creating and displaying graphs
 import matplotlib
+
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import tkinter as tk
+import json
 
 # Arbitrary data
-data = [{'name': 'item1', 'value': 5},
-        {'name': 'item2', 'value': 10},
-        {'name': 'item3', 'value': 15},
-        {'name': 'item4', 'value': 20}]
+values = []
+names = []
+
+# Load the JSON data from a file
+with open("class_database.json", "r") as file:
+    data = json.load(file)
+
+for key, value in data.items():
+    if "MATH2" in key:
+        for item in value:
+            values.append(item["aprec"])
+            names.append(item["instructor"])
+            #print(key, item["TERM_DESC"], item["instructor"], item["aprec"], item["bprec"])
+        values = sorted(values, key=float)
+    print(values)
+    print(names)
+
+file.close()
+
 
 root = tk.Tk()
 
@@ -24,15 +41,26 @@ root = tk.Tk()
 fig = Figure(figsize=(5, 4))
 ax = fig.add_subplot(111)
 
-# Extract the values and labels from the data
-values = [d['value'] for d in data]
-labels = [d['name'] for d in data]
-
 # Create the bar chart
-ax.bar(labels, values)
+ax.bar(names, values)
 
 # Create the Tkinter canvas to display the chart
 canvas = FigureCanvasTkAgg(fig, master=root)
 canvas.get_tk_widget().pack()
 
 root.mainloop()
+
+
+def class_code_search(code):
+    pass
+
+
+def department_search(code):
+    pass
+
+
+def class_level_search(code):
+    pass
+
+
+
