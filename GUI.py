@@ -8,7 +8,6 @@ data in bar graph form.
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
-import create_graph
 
 class GUI:
     # Initialize the landing page
