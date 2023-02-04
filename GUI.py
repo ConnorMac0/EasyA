@@ -225,12 +225,30 @@ class GUI:
 
     # Function that enters data from the uploaded csv file
     def enter_data(self):
-        if self.fp == '':
+
+        # Error checking to make sure a file was selected
+        if self.fp == None:
             messagebox.showerror('Error', 'Please Select A File To Upload')
             return 0
-        fp = open(self.fp, "r")
-        print(fp.read())
-        fp.close()
+
+        # Opening selected file and database to edit
+        database = open(self.fp, "r")
+        with open("class_database.json", "r") as newDataFile:
+            oldData = json.load(newDataFile)
+            newData = json.load(database)
+
+        # Adding new data to old database dictionary
+        for key in newData:
+            oldData[key] = newData[key]
+    
+        # Adding dictionary changes to database
+        with open("class_database.json", "w") as newDataFile:
+            json.dump(oldData, newDataFile)
+
+        # Closing file
+
+        database.close()
+        messagebox.showinfo('Info', 'Data Successfully Uploaded!')
 
     # Function contaning system admin page
     def adminPage(self):
