@@ -16,8 +16,11 @@ from tkinter import messagebox
 import json
 
 class GUI:
-    # Initialize the landing page
+    """Graphical User Interface class that creates an interface for the 
+        student and system admins users to interact with the EasyA program"""
+
     def __init__(self):
+        """Initialization of the GUI landing page"""
         self.root = tk.Tk()             
         self.root.title("EasyA")
 
@@ -60,23 +63,28 @@ class GUI:
         self.sysABtn.pack(padx=10, pady=10)
     
         # Header explaining where data came from, how its limited, and the years included
-        self.cite_label1 = tk.Label(self.root, text="The data included in this program was copied from https://emeraldmediagroup.github.io/grade-data/," + 
-        " the data was initially copied on 01/15/2023, it includes class data from 2013-2016", font=('Arial', 8))
+        self.cite_label1 = tk.Label(self.root, text="(ATTENTION) The data included in this program was copied from https://emeraldmediagroup.github.io/grade-data/", font=('Arial', 8))
         self.cite_label1.pack(padx=10, pady=10)
 
-        # Header explaining where data came from, how its limited, and the years included
-        self.cite_label2 = tk.Label(self.root, text='(ATTENTION) This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 8))
+        self.cite_label2 = tk.Label(self.root, text='The data was initially copied on 01/15/2023, it includes class data from 2013-2016', font=('Arial', 8))
         self.cite_label2.pack(padx=10, pady=10)
 
         # Header explaining where data came from, how its limited, and the years included
-        self.cite_label3 = tk.Label(self.root, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 8))
+        self.cite_label3 = tk.Label(self.root, text='This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 8))
         self.cite_label3.pack(padx=10, pady=10)
+
+        # Header explaining where data came from, how its limited, and the years included
+        self.cite_label4 = tk.Label(self.root, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 8))
+        self.cite_label4.pack(padx=10, pady=10)
 
         # GUI main loop
         self.root.mainloop()
 
     # Function that generates graph
     def generateGraph(self):
+        """ Function calls the graph visualizing script and passes
+            in user provided input as variables to determine what data to display in the graphs
+        """
 
         # Error checking for missing department
         if self.select_dept.get() == '':
@@ -101,6 +109,12 @@ class GUI:
 
         # Using specific course level only if it is not blank
         if self.specific_course.get() != '':
+
+            # Error checking for valid course number
+            if len(self.specific_course.get()) != 3 or int(self.specific_course.get()) > 699:
+                messagebox.showerror('Error', 'Invalid Course Number: Please Enter A 3 Digit Number Between 100-699')
+                return 0
+
             print(self.dept_code[dept_code] + self.specific_course.get())
         
         # Mode and faculty type selection
@@ -110,31 +124,11 @@ class GUI:
 
     # Function containing student page
     def studentPage(self):
+        """Function that contains the student user page data for the GUI"""
         
         # Student Page
         UserPage = tk.Toplevel()
         UserPage.title("EasyA/Student")
-
-        #-----------------Program Use Description Frame---------------------
-
-        # Frame containing the instructions for how to use the program
-        user_info_frame = tk.LabelFrame(UserPage, text="User Instructions", font=('Arial', 16))
-        user_info_frame.grid(row=0, column=0, padx=10, pady=10)
-
-        # Selecting courses and department instructions
-        select_instructions = tk.Label(user_info_frame, text='- Use the department and course level dropdown menus to view all the classes under that level or enter an exact course number in the "Specific Course Level" box', font=('Arial', 12))
-        select_instructions.pack()
-
-        # Selecting faculty type instructions
-        instructor_instructions = tk.Label(user_info_frame, text='- Select the "Just Regular Faculty" checkbox to refine your graph data from all instructors (which includes graduate student instructors) to just the regular faculty', font=('Arial', 12))
-        instructor_instructions.pack()
-
-        # Toggling Mode Instructions
-        mode_instructions = tk.Label(user_info_frame, text='- Use the radio buttons to toggle between the "EasyA" mode which generates graphs of the instructors A percentages', font=('Arial', 12))
-        mode_instructions.pack()
-
-        mode_instructions2 = tk.Label(user_info_frame, text='and "Just Pass" mode which generates graphs of instructors D and F percentages', font=('Arial', 12))
-        mode_instructions2.pack()
 
         #-----------------Course Selection Info Frame---------------------
 
@@ -221,10 +215,12 @@ class GUI:
 
     # Function to open the uploaded csv file
     def open_file(self):
+        """Function that allows the user to select and open a JSON file from their computer"""
         self.fp = filedialog.askopenfilename(initialdir='/Desktop', title='Select A File', filetypes=[('JSON Files', '*.json')])
 
-    # Function that enters data from the uploaded csv file
     def enter_data(self):
+        """Function that reads in new data from a user selected JSON file and adds it to or modifies the 
+            old Easy A database"""
 
         # Error checking to make sure a file was selected
         if self.fp == None:
@@ -250,30 +246,12 @@ class GUI:
         database.close()
         messagebox.showinfo('Info', 'Data Successfully Uploaded!')
 
-    # Function contaning system admin page
     def adminPage(self):
+        """Function that contains the system admin page data of the GUI"""
         
         #System admin page
         SysAdminPage = tk.Toplevel()
         SysAdminPage.title("EasyA/System Admin")
-        
-        #-----------------Generate Graph Button---------------------
-
-        # Frame containing the instructions for how to update data
-        admin_info_frame = tk.LabelFrame(SysAdminPage, text="System Admin Instructions", font=('Arial', 16))
-        admin_info_frame.grid(row=0, column=0, sticky="news", padx=10, pady=10)
-
-        # Admin instructions
-        instructions_intro = tk.Label(admin_info_frame, text='To add data to the system:', font=('Arial', 12))
-        instructions_intro.pack()
-
-        # Upload instructions
-        upload_inst = tk.Label(admin_info_frame, text='- Click the "Upload" button to select the JSON data file you want to add to the system', font=('Arial', 12))
-        upload_inst.pack()
-
-        # enter instructions
-        enter_inst = tk.Label(admin_info_frame, text='- Click the "Enter Data" button to add the file data into the system', font=('Arial', 12))
-        enter_inst.pack()
 
         #-----------------Data Entry Frame---------------------
 
