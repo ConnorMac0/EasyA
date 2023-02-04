@@ -2,7 +2,7 @@
 Description:
 For UO's CS 422 Project 1. Extracts data from UO grades data webpage 
 and returns it as a python dictionary.
--by Alder French """
+-by Group 4 CS 422 including: """
 
 from bs4 import BeautifulSoup
 import requests
