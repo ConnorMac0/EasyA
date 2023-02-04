@@ -7,11 +7,8 @@ data in bar graph form.
 
 import tkinter as tk
 from tkinter import ttk
-
-#--------------GOALS-------------
-# Design admin layout
-# Implement admin layout for data updating
-# Change so multiple windows are opened, change main window after user selection
+from tkinter import filedialog
+import create_graph
 
 class GUI:
     # Initialize the landing page
@@ -19,24 +16,47 @@ class GUI:
         self.root = tk.Tk()
         self.root.title("EasyA")
 
+        # New data file
+        self.fp = None
+
         # Natural Science department options
-        self.classes = ["Data Science", "Earth Sciences", "Human Physiology", "Neuroscience", "Psychology",
-                        "Multidisciplinary Science", "Mathematics", "Physics", "Biology", "Computer Science",
-                        "Chemistry and Biochemistry"]
+        self.department = ["Anthropology", "Biology", "Chemistry and Biochemistry", "Computer Science", "Data Science",
+                        "Earth Sciences", "Geography", "Human Physiology", "Mathematics", "Neuroscience", "Physics", "Psychology"]
+        # Department codes
+        self.dept_code = ["ANTH", "BI", "CH", "CIS", "DSC", "GEOL", "GEOG", "HPHY", "MATH", "NEUR", "PHYS", "PSY"]
 
         # Course level options
         self.course_levels = ["All 100-Level", "All 200-Level", "All 300-Level", "All 400-Level", "All 500-Level", "All 600-Level"]
+        self.specific_course = tk.StringVar()
+
+        # Department and course level variables
+        self.select_dept = tk.StringVar()
+        self.select_level = tk.StringVar()
 
         # Graph mode radio button variable
         self.mode = tk.IntVar()
+        self.fac_type = tk.IntVar()
 
         # Itroduction header of landing page
         self.headlabel1 = tk.Label(self.root, text="Hello! And Weclome To The EasyA Program", font=('Arial', 20))
         self.headlabel1.pack(padx=10, pady=10)
 
-        # Itroduction header of landing page
-        self.headlabel2 = tk.Label(self.root, text="Please Select Whether You Are A:", font=('Arial', 18))
+        # Header explaining where data came from, how its limited, and the years included
+        self.headlabel2 = tk.Label(self.root, text="The data included in this program was initially copied from https://emeraldmediagroup.github.io/grade-data/," +
+        " the data was copied on 01/15/2023, it includes class data from 2013-2016", font=('Arial', 10))
         self.headlabel2.pack(padx=10, pady=10)
+
+        # Header explaining where data came from, how its limited, and the years included
+        self.headlabel3 = tk.Label(self.root, text='(ATTENTION) This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 10))
+        self.headlabel3.pack(padx=10, pady=10)
+
+        # Header explaining where data came from, how its limited, and the years included
+        self.headlabel3 = tk.Label(self.root, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 10))
+        self.headlabel3.pack(padx=10, pady=10)
+
+        # Itroduction header of landing page
+        self.headlabel4 = tk.Label(self.root, text="To Begin, Please Select Whether You Are A:", font=('Arial', 18))
+        self.headlabel4.pack(padx=10, pady=10)
 
         # Button to select the student user and open student user page
         self.stuBtn = tk.Button(self.root, text="Student", font=('Arial', 18), command=self.studentPage)
@@ -49,8 +69,38 @@ class GUI:
         # GUI main loop
         self.root.mainloop()
 
+    # Function that generates graph
+    def generateGraph(self):
+
+        # Error checking for missing department
+        if self.select_dept.get() == '':
+            print("ERROR: Please select a department")
+            return 0
+
+        # Error checking for course level or specific course number
+        if (self.select_level.get() == '') and (self.specific_course.get() == ''):
+            print("ERROR: Please select a cource level or specific course number")
+            return 0
+
+        # Turning the selected department name into department code
+        dept_code = self.department.index(self.select_dept.get())
+        print(self.dept_code[dept_code])
+
+        # Use course levels if no specific course number is given
+        if self.specific_course.get() == '':
+            print(self.course_levels.index(self.select_level.get())+1)
+
+        # Using specific course level only if it is not blank
+        if self.specific_course.get() != '':
+            print(self.specific_course.get())
+
+        # Mode and faculty type selection
+        print(self.mode.get())
+        print(self.fac_type.get())
+
     # Function containing student page
     def studentPage(self):
+
         # Student Page
         UserPage = tk.Toplevel()
         UserPage.title("EasyA/Student")
@@ -78,32 +128,32 @@ class GUI:
 
         #-----------------Course Selection Info Frame---------------------
 
-        #Frame containing the info for course selection
+        # Frame containing the info for course selection
         course_info_frame = tk.LabelFrame(UserPage, text="Course Selection", font=('Arial', 16))
         course_info_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
-        #Department
+        # Department
         dept_label = tk.Label(course_info_frame, text="Department", font=('Arial', 20))
         dept_label.grid(row=0, column=0)
 
-        #Dropdown menu for department selection including all natural science departments
-        dept_dropdown = ttk.Combobox(course_info_frame, values=self.classes)
+        # Dropdown menu for department selection including all natural science departments
+        dept_dropdown = ttk.Combobox(course_info_frame, state='readonly', values=self.department, textvariable=self.select_dept)
         dept_dropdown.grid(row=1, column=0)
 
-        #Course Level
+        # Course Level
         course_level_label = tk.Label(course_info_frame, text="Course Level", font=('Arial', 20))
         course_level_label.grid(row=0, column=1)
 
-        #Dropdown menu for course level selection from 100 to 600
-        course_level_dropdown = ttk.Combobox(course_info_frame, values=self.course_levels)
+        # Dropdown menu for course level selection from 100 to 600
+        course_level_dropdown = ttk.Combobox(course_info_frame, state='readonly', values=self.course_levels, textvariable=self.select_level)
         course_level_dropdown.grid(row=1, column=1)
 
-        #Specific Course Level
+        # Specific Course Level
         spec_course_level_label = tk.Label(course_info_frame, text="Specific Course Level", font=('Arial', 20))
         spec_course_level_label.grid(row=0, column=2)
 
-        #Text entry box that allows a user to search for a specific course level (111, 112, ...)
-        spec_course_level_entry = ttk.Entry(course_info_frame)
+        # Text entry box that allows a user to search for a specific course level (111, 112, ...)
+        spec_course_level_entry = ttk.Entry(course_info_frame, textvariable=self.specific_course)
         spec_course_level_entry.grid(row=1, column=2)
 
         # Give all widgets in this frame the same padding
@@ -121,7 +171,7 @@ class GUI:
         instructor_label.grid(row=0, column=0)
 
         # Instructor selection checkbox
-        instructor_checkbox = tk.Checkbutton(graph_filter_frame, text="Just Regular Faculty", font=('Arial', 12))
+        instructor_checkbox = tk.Checkbutton(graph_filter_frame, text="Just Regular Faculty", font=('Arial', 12), variable=self.fac_type)
         instructor_checkbox.grid(row=1, column=0)
 
         # Graph mode label
@@ -130,11 +180,11 @@ class GUI:
 
         # Radio buttons that toggle between graph data modes
         # EasyA mode radio button
-        easyA_radio_btn = tk.Radiobutton(graph_filter_frame, text="EasyA - Only A's", font=('Arial', 12), variable=self.mode, value=1)
+        easyA_radio_btn = tk.Radiobutton(graph_filter_frame, text="EasyA - Only A's", font=('Arial', 12), variable=self.mode, value=0)
         easyA_radio_btn.grid(row=1, column=1)
 
         # Just Pass mode radio button
-        justPass_radio_btn = tk.Radiobutton(graph_filter_frame, text="Just Pass - D's and F's", font=('Arial', 12), variable=self.mode, value=2)
+        justPass_radio_btn = tk.Radiobutton(graph_filter_frame, text="Just Pass - D's and F's", font=('Arial', 12), variable=self.mode, value=1)
         justPass_radio_btn.grid(row=2, column=1)
 
         # Give all widgets in this frame the same padding
@@ -144,8 +194,21 @@ class GUI:
         #-----------------Generate Graph Button---------------------
 
         # Generate Graph Button
-        generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20))
+        generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20), command=self.generateGraph)
         generate_graph_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
+
+    # Function to open the uploaded csv file
+    def open_file(self):
+        self.fp = filedialog.askopenfilename(initialdir='/Desktop', title='Select A File', filetypes=[('JSON Files', '*.json')])
+
+    # Function that enters data from the uploaded csv file
+    def enter_data(self):
+        if self.fp == None:
+            print("Error: No file uploaded")
+            return None
+        fp = open(self.fp, "r")
+        print(fp.read())
+        fp.close()
 
     # Function contaning system admin page
     def adminPage(self):
@@ -154,99 +217,46 @@ class GUI:
         SysAdminPage = tk.Toplevel()
         SysAdminPage.title("EasyA/System Admin")
 
-         #-----------------Program Use Description Frame---------------------
+        #-----------------Generate Graph Button---------------------
 
         # Frame containing the instructions for how to update data
-        user_info_frame = tk.LabelFrame(SysAdminPage, text="System Admin Instructions", font=('Arial', 16))
-        user_info_frame.grid(row=0, column=0, sticky="news", padx=10, pady=10)
+        admin_info_frame = tk.LabelFrame(SysAdminPage, text="System Admin Instructions", font=('Arial', 16))
+        admin_info_frame.grid(row=0, column=0, sticky="news", padx=10, pady=10)
 
-
-        instructions_intro = tk.Label(user_info_frame, text='To add data to the system or update existing data:', font=('Arial', 12))
+        # Admin instructions
+        instructions_intro = tk.Label(admin_info_frame, text='To add data to the system:', font=('Arial', 12))
         instructions_intro.pack()
 
-        # Class data entry instructions
-        course_data_instructions = tk.Label(user_info_frame, text='- Enter in the instructors name, the course code, and the crn of the class', font=('Arial', 12))
-        course_data_instructions.pack()
+        # Upload instructions
+        upload_inst = tk.Label(admin_info_frame, text='- Click the "Upload" button to select the csv data file you want to add to the system', font=('Arial', 12))
+        upload_inst.pack()
 
-        # Class data entry instructions
-        grade_perc_instructions = tk.Label(user_info_frame, text="- Add the percentage of A's, D's, and F's given by the instructor", font=('Arial', 12))
-        grade_perc_instructions.pack()
+        # enter instructions
+        enter_inst = tk.Label(admin_info_frame, text='- Click the "Enter Data" button to add the file data into the system', font=('Arial', 12))
+        enter_inst.pack()
 
-        # Entry instructions
-        entry_instructions = tk.Label(user_info_frame, text='- Click "Enter Data" at the bottom to enter the provided data into the system', font=('Arial', 12))
-        entry_instructions.pack()
+        #-----------------Data Entry Frame---------------------
 
-        #-----------------Class Data Frame---------------------
+        # Frame containing file selection and data entry
+        data_entry_frame = tk.LabelFrame(SysAdminPage, text="Data Entry", font=('Arial', 16))
+        data_entry_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
-        # Class data entry frame
-        class_data_frame = tk.LabelFrame(SysAdminPage, text="Course Data", font=('Arial', 16))
-        class_data_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
+        # Upload Button Label
+        upload_label = tk.Label(data_entry_frame, text="Upload CSV File", font=('Arial', 20))
+        upload_label.grid(row=0, column=0)
 
-        # Instructor entry label
-        inst_name_label = tk.Label(class_data_frame, text="Instructor Name", font=('Arial', 20))
-        inst_name_label.grid(row=0, column=0)
-
-        # Instructor name entry box
-        inst_name_entry = ttk.Entry(class_data_frame)
-        inst_name_entry.grid(row=1, column=0)
-
-        # Class code entry label
-        course_code_label = tk.Label(class_data_frame, text="Course Code", font=('Arial', 20))
-        course_code_label.grid(row=0, column=1)
-
-        # crn entry box
-        course_code_entry = ttk.Entry(class_data_frame)
-        course_code_entry.grid(row=1, column=1)
-
-        # crn number entry label
-        crn_label = tk.Label(class_data_frame, text="CRN", font=('Arial', 20))
-        crn_label.grid(row=0, column=2)
-
-        # crn entry box
-        crn_entry = ttk.Entry(class_data_frame)
-        crn_entry.grid(row=1, column=2)
+        # Upload Button
+        upload_btn = tk.Button(data_entry_frame, text="Upload", font=('Arial', 20), command=self.open_file)
+        upload_btn.grid(row=0, column=1)
 
         # Give all widgets in this frame the same padding
-        for widget in class_data_frame.winfo_children():
-            widget.grid_configure(padx=20, pady=10)
-
-        #-----------------Grade Data Frame---------------------
-
-        # Grade data frame
-        grade_data_frame = tk.LabelFrame(SysAdminPage, text="Grade Data", font=('Arial', 16))
-        grade_data_frame.grid(row=2, column=0, sticky="news", padx=10, pady=10)
-
-        # A percentage entry label
-        aperc_label = tk.Label(grade_data_frame, text="A percentage", font=('Arial', 20))
-        aperc_label.grid(row=0, column=0)
-
-        # A percentage entry box
-        aperc_entry = ttk.Entry(grade_data_frame)
-        aperc_entry.grid(row=1, column=0)
-
-        # D percentage entry label
-        dperc_label = tk.Label(grade_data_frame, text="D percentage", font=('Arial', 20))
-        dperc_label.grid(row=0, column=1)
-
-        # D percentage entry box
-        dperc_entry = ttk.Entry(grade_data_frame)
-        dperc_entry.grid(row=1, column=1)
-
-        # F percentage entry label
-        fperc_label = tk.Label(grade_data_frame, text="F percentage", font=('Arial', 20))
-        fperc_label.grid(row=0, column=2)
-
-        # F percentage entry box
-        fperc_entry = ttk.Entry(grade_data_frame)
-        fperc_entry.grid(row=1, column=2)
-
-        # Give all widgets in this frame the same padding
-        for widget in grade_data_frame.winfo_children():
+        for widget in data_entry_frame.winfo_children():
             widget.grid_configure(padx=20, pady=10)
 
         #-----------------Enter Data Button---------------------
 
-        # Generate Graph Button
-        enter_data_btn = tk.Button(SysAdminPage, text="Enter Data", font=('Arial', 20))
+        # Enter Data Button
+        enter_data_btn = tk.Button(SysAdminPage, text="Enter Data", font=('Arial', 20), command=self.enter_data)
         enter_data_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
+
 GUI()
