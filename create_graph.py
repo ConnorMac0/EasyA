@@ -94,10 +94,22 @@ def class_search(code, aorf, faculty, num_classes):
         else:
             class_dictionary[per] = 1
 
-    if ints != 1:
-        for i in range(0, len(values)):
+    split_names = []
 
-            key = names[i]
+    for name in names:
+
+        split_name = name.split(',')[0]
+
+        if num_classes:
+            split_name = f'{split_name} ({class_dictionary[name]})'
+
+        split_names.append(split_name)
+    split_names_list = list(set(split_names))
+
+    if ints != 1:
+        for i in range(len(values)):
+
+            key = split_names[i]
 
             if key not in grade_dictionary:
                 grade_dictionary[key] = [0, 0]
@@ -109,22 +121,13 @@ def class_search(code, aorf, faculty, num_classes):
             average = grade_dictionary[key][0] / grade_dictionary[key][1]
             grade_dictionary[key] = average
 
-    print(grade_dictionary)
+    #print(grade_dictionary)
 
-    split_names = []
 
-    for name in names:
-
-        split_name = name.split(',')[0]
-
-        if num_classes:
-            split_name = f'{split_name} ({class_dictionary[name]})'
-
-        split_names.append(split_name)
-
-    print(values)
-    print(split_names)
-    print(class_dictionary)
+    print(len(grade_dictionary.values()))
+    print(grade_dictionary.values())
+    print(len(split_names_list))
+    #print(class_dictionary)
 
     file.close()
 
@@ -146,10 +149,14 @@ def class_search(code, aorf, faculty, num_classes):
         plt.xlabel("Teacher")
 
     # Create the bar chart
-    ax.bar(split_names, convert_to_floats(values), width)
-    ax.set_ylim([0,100])
+    if ints == 1:
+        ax.bar(split_names, convert_to_floats(values), width)
+    else:
+        ax.bar(grade_dictionary.keys(), convert_to_floats(grade_dictionary.values()), width)
+    ax.set_ylim([0, 100])
+    plt.subplots_adjust(top=.98, bottom=.2)
 
     plt.show()
 
 
-class_search("MATH111", 0, 1, 1)
+class_search("PHYS3", 0, 0, 0)
