@@ -57,7 +57,7 @@ def write_class_dict_db(db_file_name, class_dict):
 def get_faculty_names():
     '''
     Input: (No input)
-    Returns: List of faculty names?
+    Returns: List of faculty names
     '''
     faculty_names_url = "https://web.archive.org/web/20140901091007/http://catalog.uoregon.edu/arts_sciences/"
     html_doc = requests.get(faculty_names_url)
@@ -74,14 +74,19 @@ def get_faculty_names():
         dept_page_urls.append(full_url)
     # next iterate though department page URLs and collect their faculty names
     faculty_names_list = []
-    dept_number = 1
+    dept_number = 0
     for dept_page_url in dept_page_urls:
-        print("TESTING: Currently scraping from department #" + str(dept_number))
+        #print("TESTING: Currently scraping from department #" + str(dept_number))
+        # Show progress of department faculty name scraping since it takes
+        # a good while
+        if dept_number % 5 == 0:
+            print("\nSTATUS: %i/%i department pages scraped for regular faculty names..." % (dept_number, len(dept_page_urls)))
         dept_page_names = scrape_faculty_names(dept_page_url)
-        time.sleep(random.randrange(3, 7, 1)) # This is to avoid "Error 54 - Connection Reset By Peer" (server blocks scraping)
+        time.sleep(random.randrange(1, 3, 1)) # This is to avoid "Error 54 - Connection Reset By Peer" (server blocks scraping)
         dept_number += 1
         for name in dept_page_names:
             faculty_names_list.append(name)
+    print("\nSTATUS - DONE: %i/%i department pages scraped for regular faculty names...\n" % (dept_number, len(dept_page_urls)))
     return faculty_names_list
 
 
@@ -95,7 +100,10 @@ def scrape_faculty_names(dept_page_url):
     try:
         html_doc = requests.get(dept_page_url)
     except Exception as e:
-        print("ERROR - manually caught an Exception, error is: " + str(e))
+        print("\nEXCEPTION - caught an Exception: " + str(e))
+        print("Usually this is because the URL's server blocks scraping (ERROR 54),")
+        print("or because our request to get that page timed out (ERROR 60).")
+        print("So, skipping scraping faculty names from the following url:\n" + dept_page_url)
         return []
     soup = BeautifulSoup(html_doc.text, 'html.parser')
     faculty_paragraphs = soup.find_all("p", class_="facultylist")
@@ -108,7 +116,7 @@ def scrape_faculty_names(dept_page_url):
         else:
             continue
         faculty_name = str(paragraph)[first_alligator_pos+1:first_comma_pos]
-        print("Test names: " + faculty_name)
+        #print("Test names: " + faculty_name)
         faculty_names.append(faculty_name)
     return faculty_names
 
@@ -170,9 +178,6 @@ def add_regular_faculty_to_db(faculty_file_name, database_file_name):
     write_class_dict_db(database_file_name, db)
                                 
 
-
-
-
 def test_class_dict():
     test_dict = get_class_dict()
     i = 0
@@ -189,26 +194,22 @@ def test_class_dict():
 
 
 if __name__ == "__main__": # Write class dictionary to json database file
-    #class_dict = get_class_dict()
-    #write_class_dict_db(class_dict)
-    #faculty_names = get_faculty_names()
-    #write_faculty_list(faculty_names)
 
-    # Test Update DB by adding regular faculty to its copy
     faculty_file_name = "regular_faculty_names.txt"
     database_file_name = "class_database.json"
+
+    print("Starting scrape_data.py. This python script sets up Easy-A's database.\n")
+    print("Scraping class data from .js file linked in handout.\n")
+    class_dict = get_class_dict()
+    print("Success! Scraped class data. Writing it to %s file now.\n" % (database_file_name))
+    write_class_dict_db(database_file_name, class_dict)
+    print("Scraping regular faculty names from web archive, this may take a few minutes...")
+    faculty_names = get_faculty_names()
+    write_faculty_list(faculty_names)
+    print("Success! Scraped regular faculty names and saved them to .txt file. Now using them to update class data in database...\n")
     add_regular_faculty_to_db(faculty_file_name, database_file_name)
-
-
-    '''
-    print("Testing faculty name scraping")
-    i = 1
-    for name in faculty_names:
-        i += 1
-        print("Faculty member's name: " + name)
-        if i > 5:
-            break
-    '''
+    print("Success! Updated database with regular faculty.\n")
+    print("All done setting up database! Exiting scrape_data.py...")
 
 
 

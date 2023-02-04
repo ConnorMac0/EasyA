@@ -46,43 +46,6 @@ Dennis L. Jenkins
 Brian Klopotek
 Patricia Krier
 Brian L. O’Neill
-Ina Asim
-William S. Ayres
-Aletta Biersack
-Lucien Brown
-Steven T. Brown
-Daniel P. Buck
-Kathie Carpenter
-Scott DeLancey
-Stephen W. Durrant
-Maram Epstein
-Alisa D. Freedman
-Andrew E. Goble
-Bryna Goodman
-Sangita Gopal
-Alison Groppe
-Jeffrey E. Hanes
-Kaori Idemaru
-Dong Hoon Kim
-Karrie Koesel
-Stephen W. Kohl
-Robert Kyr
-Charles H. Lachman
-Gyoung-Ah Lee
-David Leiwei Li
-John R. Lukacs
-Daisuke Miyao
-Roxann Prazniak
-Eric Priest
-Tze-Lan Sang
-Xiaobo Su
-Ying Tan
-Mark T. Unno
-Tuong Vu
-Yugen Wang
-Jason Webb
-Anita M. Weiss
-Kyu Ho Youm
 Alice Barkan
 Brendan J. M. Bohannan
 Bruce A. Bowerman
@@ -599,6 +562,33 @@ Craig Parsons
 George J. Sheridan Jr.
 Priscilla Southwell
 Michael Stern
+Doug Blandy
+Dianne M. Dugaw
+John Fenn
+Lisa M. Gilman
+Philip W. Scher
+Sharon R. Sherman
+Carol T. Silverman
+Daniel N. Wojcik
+Juan Eduardo "Ed" Wolf
+Roger Adkins
+Ina Asim
+Martha J. Bayless
+Carl R. Bybee
+Matthew Dennis
+Patricia M. Dewey
+James D. Fox
+Lori Hager
+Kingston Heath
+Kenneth I. Helphand
+Lamia Karim
+Gabriela Martinez
+Debra L. Merskin
+Julianne H. Newton
+Jeffrey Ostler
+Priscilla P. Ovalle
+Rachelle Saltzman
+Gordon M. Sayre
 Patrick J. Bartlein
 Christopher Bone
 Daniel P. Buck
@@ -1189,53 +1179,6 @@ Richard P. Suttmeier
 M. George Zaninovich
 Stuart Chinn
 Gordon Lafer
-Jennifer Ablow
-Nicholas Allen
-Holly Arrow
-Edward Awh
-Dare A. Baldwin
-Elliot Berkman
-Paul Dassonville
-Kimberly Andrews Espy
-Philip A. Fisher
-Jennifer J. Freyd
-Gordon C. Nagayama Hall
-Sara D. Hodges
-Clifford Kentros
-Heidemarie K. Laurent
-Robert Mauro
-Ulrich Mayr
-Jeffrey Measelle
-Pranjal Mehta
-Louis J. Moses
-Helen Neville
-Jennifer Pfeifer
-Gerard Saucier
-Margaret E. Sereno
-Azim Shariff
-Paul Slovic
-Sanjay Srivastava
-Marjorie Taylor
-Don M. Tucker
-Nash Unsworth
-Edward Vogel
-Michael Wehr
-Lewis R. Goldberg
-Barbara Gordon-Lickey
-Marvin Gordon-Lickey
-Douglas L. Hintzman
-Ray Hyman
-Carolin Keutzer
-Daniel P. Kimble
-Peter M. Lewinsohn
-Edward Lichtenstein
-Richard A. Littman
-Richard Marrocco
-Michael I. Posner
-Mary K. Rothbart
-Myron Rothbart
-Norman D. Sundberg
-Robert L. Weiss
 Judith R. Baskin
 Frederick Colby
 Daniel K. Falk
