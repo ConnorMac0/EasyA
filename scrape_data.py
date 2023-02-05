@@ -1,8 +1,12 @@
 """ scrape_data.py
 Description:
-For UO's CS 422 Project 1. Extracts data from UO grades data webpage 
+For UO's CS 422 Project 1. A python script that extracts data from UO grades data webpage 
 and returns it as a python dictionary.
--by Group 4 CS 422 including: """
+Authors: Alder French, Juan Rios
+Group: Group #4
+Created: 01/12/2023
+Last Updated: 2/04/2023
+"""
 
 from bs4 import BeautifulSoup
 import requests
