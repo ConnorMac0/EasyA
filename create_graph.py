@@ -37,6 +37,8 @@ def class_search(code, aorf, faculty, num_classes):
             ints += 1
 
     for key, value in data.items():
+        if "ARCH" in key:
+            continue
         if code in key:
             if ints == 1:
                 for item in value:
@@ -159,4 +161,4 @@ def class_search(code, aorf, faculty, num_classes):
     plt.show()
 
 
-class_search("PHYS3", 0, 0, 0)
+class_search("CH2", 0, 0, 0)
