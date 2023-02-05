@@ -14,21 +14,30 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 import json
+import create_graph as cg
 
 class GUI:
-    # Initialize the landing page
+    """Graphical User Interface class that creates an interface for the 
+        student and system admins users to interact with the EasyA program"""
+
     def __init__(self):
-        self.root = tk.Tk()             
+        """Initialization of the GUI landing page"""
+        self.root = tk.Tk()
         self.root.title("EasyA")
+
+        # Landing, User, and Admin frames
+        self.LandingPage = tk.Frame(self.root)
+        self.UserPage = tk.Frame(self.root)
+        self.SysAdminPage = tk.Frame(self.root)           
 
         # New data file
         self.fp = None
 
         # Natural Science department names
         self.department = ["Anthropology", "Biology", "Chemistry and Biochemistry", "Computer Science", "Data Science", 
-                        "Earth Sciences", "Geography", "Human Physiology", "Mathematics", "Neuroscience", "Physics", "Psychology"]
+                        "Earth Sciences", "Geography", "Human Physiology", "Mathematics", "Physics", "Psychology"]
         # Department codes
-        self.dept_code = ["ANTH", "BI", "CH", "CIS", "DSCI", "GEOL", "GEOG", "HPHY", "MATH", "NEUR", "PHYS", "PSY"]
+        self.dept_code = ["ANTH", "BI", "CH", "CIS", "DSC", "GEOL", "GEOG", "HPHY", "MATH", "PHYS", "PSY"]
 
         # Course level options
         self.course_levels = ["All Department", "All 100-Level", "All 200-Level", "All 300-Level", "All 400-Level", "All 500-Level", "All 600-Level"]
@@ -43,40 +52,48 @@ class GUI:
         self.fac_type = tk.IntVar()
         self.class_count = tk.IntVar()
 
+        self.LandingPage.pack(fill="both", expand=1)
+        self.LandingPage.config(bg='green')
+
         # Itroduction header of landing page
-        self.headlabel1 = tk.Label(self.root, text="Hello! And Weclome To The EasyA Program", font=('Arial', 20))
+        self.headlabel1 = tk.Label(self.LandingPage, text="Weclome To The EasyA Program", font=('Arial', 20), bg='green')
         self.headlabel1.pack(padx=10, pady=10)
 
         # Itroduction header of landing page
-        self.headlabel4 = tk.Label(self.root, text="To Begin, Please Select Whether You Are A:", font=('Arial', 18))
-        self.headlabel4.pack(padx=10, pady=10)
+        self.headlabel2 = tk.Label(self.LandingPage, text="To Begin, Please Select Whether You Are A:", font=('Arial', 18), bg='green')
+        self.headlabel2.pack(padx=10, pady=10)
 
         # Button to select the student user and open student user page
-        self.stuBtn = tk.Button(self.root, text="Student", font=('Arial', 18), command=self.studentPage)
+        self.stuBtn = tk.Button(self.LandingPage, text="Student", font=('Arial', 18), command=self.studentPage, highlightbackground='yellow')
         self.stuBtn.pack(padx=10, pady=10)
 
         # Button to select the system admin and open system admin page
-        self.sysABtn = tk.Button(self.root, text="System Admin", font=('Arial', 18), command=self.adminPage)
+        self.sysABtn = tk.Button(self.LandingPage, text="System Admin", font=('Arial', 18), command=self.adminPage, highlightbackground='yellow')
         self.sysABtn.pack(padx=10, pady=10)
     
         # Header explaining where data came from, how its limited, and the years included
-        self.cite_label1 = tk.Label(self.root, text="The data included in this program was copied from https://emeraldmediagroup.github.io/grade-data/," + 
-        " the data was initially copied on 01/15/2023, it includes class data from 2013-2016", font=('Arial', 8))
+        self.cite_label1 = tk.Label(self.LandingPage, text="(ATTENTION) The data included in this program was copied from https://emeraldmediagroup.github.io/grade-data/", font=('Arial', 8), bg='green')
         self.cite_label1.pack(padx=10, pady=10)
 
-        # Header explaining where data came from, how its limited, and the years included
-        self.cite_label2 = tk.Label(self.root, text='(ATTENTION) This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 8))
+        self.cite_label2 = tk.Label(self.LandingPage, text='The data was initially copied on 01/15/2023, it includes class data from 2013-2016', font=('Arial', 8), bg='green')
         self.cite_label2.pack(padx=10, pady=10)
 
         # Header explaining where data came from, how its limited, and the years included
-        self.cite_label3 = tk.Label(self.root, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 8))
+        self.cite_label3 = tk.Label(self.LandingPage, text='This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 8), bg='green')
         self.cite_label3.pack(padx=10, pady=10)
+
+        # Header explaining where data came from, how its limited, and the years included
+        self.cite_label4 = tk.Label(self.LandingPage, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 8), bg='green')
+        self.cite_label4.pack(padx=10, pady=10)
 
         # GUI main loop
         self.root.mainloop()
 
     # Function that generates graph
     def generateGraph(self):
+        """ Function calls the graph visualizing script and passes
+            in user provided input as variables to determine what data to display in the graphs
+        """
 
         # Error checking for missing department
         if self.select_dept.get() == '':
@@ -90,56 +107,39 @@ class GUI:
         
         # Turning the selected department name into department code
         dept_code = self.department.index(self.select_dept.get())
-        #print(self.dept_code[dept_code])
 
         # Use course levels if no specific course number is given
         if self.specific_course.get() == '':
             if self.course_levels.index(self.select_level.get()) != 0:
+                cg.class_search(self.dept_code[dept_code] + str(self.course_levels.index(self.select_level.get())), self.mode.get(), self.fac_type.get(), self.class_count.get())
                 print(self.dept_code[dept_code] + str(self.course_levels.index(self.select_level.get())))
             else:
-                print(self.dept_code[dept_code])
+                cg.class_search(self.dept_code[dept_code], self.mode.get(), self.fac_type.get(), self.class_count.get())
 
         # Using specific course level only if it is not blank
         if self.specific_course.get() != '':
-            print(self.dept_code[dept_code] + self.specific_course.get())
-        
-        # Mode and faculty type selection
-        print(self.mode.get())
-        print(self.fac_type.get())
-        print(self.class_count.get())
+
+            # Error checking for valid course number
+            if len(self.specific_course.get()) != 3 or int(self.specific_course.get()) > 699:
+                messagebox.showerror('Error', 'Invalid Course Number: Please Enter A 3 Digit Number Between 100-699')
+                return 0
+
+            cg.class_search(self.dept_code[dept_code] + self.specific_course.get(), self.mode.get(), self.fac_type.get(), self.class_count.get())
 
     # Function containing student page
     def studentPage(self):
+        """Function that contains the student user page data for the GUI"""
         
         # Student Page
-        UserPage = tk.Toplevel()
-        UserPage.title("EasyA/Student")
-
-        #-----------------Program Use Description Frame---------------------
-
-        # Frame containing the instructions for how to use the program
-        user_info_frame = tk.LabelFrame(UserPage, text="User Instructions", font=('Arial', 16))
-        user_info_frame.grid(row=0, column=0, padx=10, pady=10)
-
-        # Selecting courses and department instructions
-        select_instructions = tk.Label(user_info_frame, text='- Use the department and course level dropdown menus to view all the classes under that level or enter an exact course number in the "Specific Course Level" box', font=('Arial', 12))
-        select_instructions.pack()
-
-        # Selecting faculty type instructions
-        instructor_instructions = tk.Label(user_info_frame, text='- Select the "Just Regular Faculty" checkbox to refine your graph data from all instructors (which includes graduate student instructors) to just the regular faculty', font=('Arial', 12))
-        instructor_instructions.pack()
-
-        # Toggling Mode Instructions
-        mode_instructions = tk.Label(user_info_frame, text='- Use the radio buttons to toggle between the "EasyA" mode which generates graphs of the instructors A percentages', font=('Arial', 12))
-        mode_instructions.pack()
-
-        mode_instructions2 = tk.Label(user_info_frame, text='and "Just Pass" mode which generates graphs of instructors D and F percentages', font=('Arial', 12))
-        mode_instructions2.pack()
+        self.UserPage.pack(fill="both", expand=1)
+        self.LandingPage.pack_forget()
+        self.SysAdminPage.pack_forget()
+        self.UserPage.config(bg='green')
 
         #-----------------Course Selection Info Frame---------------------
 
         # Frame containing the info for course selection
-        course_info_frame = tk.LabelFrame(UserPage, text="Course Selection", font=('Arial', 16))
+        course_info_frame = tk.LabelFrame(self.UserPage, text="Course Selection", font=('Arial', 16))
         course_info_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
         # Department 
@@ -173,7 +173,7 @@ class GUI:
         #-----------------Graph Filter Frame---------------------
 
         # Frame containing all options to refine graph data
-        graph_filter_frame = tk.LabelFrame(UserPage, text="Graph Data Filter", font=('Arial', 16))
+        graph_filter_frame = tk.LabelFrame(self.UserPage, text="Graph Data Filter", font=('Arial', 16))
         graph_filter_frame.grid(row=2, column=0, sticky="news", padx=10, pady=10)
 
         # Instructor selection label
@@ -216,51 +216,57 @@ class GUI:
         #-----------------Generate Graph Button---------------------
 
         # Generate Graph Button
-        generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20), command=self.generateGraph)
+        generate_graph_btn = tk.Button(self.UserPage, text="Generate Graph", font=('Arial', 20), command=self.generateGraph, highlightbackground='yellow')
         generate_graph_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
 
-    # Function to open the uploaded csv file
+        # Back Button
+        back_btn = tk.Button(self.UserPage, text="Back", font=('Arial', 20), command=self.backButton, highlightbackground='yellow')
+        back_btn.grid(row=4, column=0, sticky="ns", padx=20, pady=20)
+
     def open_file(self):
+        """Function that allows the user to select and open a JSON file from their computer"""
         self.fp = filedialog.askopenfilename(initialdir='/Desktop', title='Select A File', filetypes=[('JSON Files', '*.json')])
 
-    # Function that enters data from the uploaded csv file
     def enter_data(self):
-        if self.fp == '':
+        """Function that reads in new data from a user selected JSON file and adds it to or modifies the 
+            old Easy A database"""
+
+        # Error checking to make sure a file was selected
+        if self.fp == None:
             messagebox.showerror('Error', 'Please Select A File To Upload')
             return 0
-        fp = open(self.fp, "r")
-        print(fp.read())
-        fp.close()
 
-    # Function contaning system admin page
+        # Opening selected file and database to edit
+        database = open(self.fp, "r")
+        with open("class_database.json", "r") as newDataFile:
+            oldData = json.load(newDataFile)
+            newData = json.load(database)
+
+        # Adding new data to old database dictionary
+        for key in newData:
+            oldData[key] = newData[key]
+    
+        # Adding dictionary changes to database
+        with open("class_database.json", "w") as newDataFile:
+            json.dump(oldData, newDataFile)
+
+        # Closing file
+        database.close()
+        messagebox.showinfo('Info', 'Data Successfully Uploaded!')
+
     def adminPage(self):
+        """Function that contains the system admin page data of the GUI"""
         
         #System admin page
-        SysAdminPage = tk.Toplevel()
-        SysAdminPage.title("EasyA/System Admin")
-        
-        #-----------------Generate Graph Button---------------------
-
-        # Frame containing the instructions for how to update data
-        admin_info_frame = tk.LabelFrame(SysAdminPage, text="System Admin Instructions", font=('Arial', 16))
-        admin_info_frame.grid(row=0, column=0, sticky="news", padx=10, pady=10)
-
-        # Admin instructions
-        instructions_intro = tk.Label(admin_info_frame, text='To add data to the system:', font=('Arial', 12))
-        instructions_intro.pack()
-
-        # Upload instructions
-        upload_inst = tk.Label(admin_info_frame, text='- Click the "Upload" button to select the JSON data file you want to add to the system', font=('Arial', 12))
-        upload_inst.pack()
-
-        # enter instructions
-        enter_inst = tk.Label(admin_info_frame, text='- Click the "Enter Data" button to add the file data into the system', font=('Arial', 12))
-        enter_inst.pack()
+        self.SysAdminPage.pack(fill="both", expand=1)
+        self.LandingPage.pack_forget()
+        self.UserPage.pack_forget()
+        self.SysAdminPage.config(bg='green')
 
         #-----------------Data Entry Frame---------------------
 
         # Frame containing file selection and data entry
-        data_entry_frame = tk.LabelFrame(SysAdminPage, text="Data Entry", font=('Arial', 16))
+        data_entry_frame = tk.LabelFrame(self.SysAdminPage, text="Data Entry", font=('Arial', 16))
         data_entry_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
         # Upload Button Label
@@ -278,7 +284,18 @@ class GUI:
         #-----------------Enter Data Button---------------------
 
         # Enter Data Button
-        enter_data_btn = tk.Button(SysAdminPage, text="Enter Data", font=('Arial', 20), command=self.enter_data)
+        enter_data_btn = tk.Button(self.SysAdminPage, text="Enter Data", font=('Arial', 20), command=self.enter_data, highlightbackground='yellow')
         enter_data_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
+        
+        # Back Button
+        back_btn = tk.Button(self.SysAdminPage, text="Back", font=('Arial', 20), command=self.backButton, highlightbackground='yellow')
+        back_btn.grid(row=4, column=0, sticky="ns", padx=20, pady=20)
+
+
+    def backButton(self):
+        """Function to return to the landing page"""
+        self.LandingPage.pack(fill="both", expand=1)
+        self.SysAdminPage.pack_forget()
+        self.UserPage.pack_forget()
 
 GUI()
