@@ -21,8 +21,13 @@ class GUI:
 
     def __init__(self):
         """Initialization of the GUI landing page"""
-        self.root = tk.Tk()             
+        self.root = tk.Tk()
         self.root.title("EasyA")
+
+        # Landing, User, and Admin frames
+        self.LandingPage = tk.Frame(self.root)
+        self.UserPage = tk.Frame(self.root)
+        self.SysAdminPage = tk.Frame(self.root)           
 
         # New data file
         self.fp = None
@@ -46,35 +51,38 @@ class GUI:
         self.fac_type = tk.IntVar()
         self.class_count = tk.IntVar()
 
+        self.LandingPage.pack(fill="both", expand=1)
+        self.LandingPage.config(bg='green')
+
         # Itroduction header of landing page
-        self.headlabel1 = tk.Label(self.root, text="Hello! And Weclome To The EasyA Program", font=('Arial', 20))
+        self.headlabel1 = tk.Label(self.LandingPage, text="Weclome To The EasyA Program", font=('Arial', 20), bg='green')
         self.headlabel1.pack(padx=10, pady=10)
 
         # Itroduction header of landing page
-        self.headlabel4 = tk.Label(self.root, text="To Begin, Please Select Whether You Are A:", font=('Arial', 18))
-        self.headlabel4.pack(padx=10, pady=10)
+        self.headlabel2 = tk.Label(self.LandingPage, text="To Begin, Please Select Whether You Are A:", font=('Arial', 18), bg='green')
+        self.headlabel2.pack(padx=10, pady=10)
 
         # Button to select the student user and open student user page
-        self.stuBtn = tk.Button(self.root, text="Student", font=('Arial', 18), command=self.studentPage)
+        self.stuBtn = tk.Button(self.LandingPage, text="Student", font=('Arial', 18), command=self.studentPage, highlightbackground='yellow')
         self.stuBtn.pack(padx=10, pady=10)
 
         # Button to select the system admin and open system admin page
-        self.sysABtn = tk.Button(self.root, text="System Admin", font=('Arial', 18), command=self.adminPage)
+        self.sysABtn = tk.Button(self.LandingPage, text="System Admin", font=('Arial', 18), command=self.adminPage, highlightbackground='yellow')
         self.sysABtn.pack(padx=10, pady=10)
     
         # Header explaining where data came from, how its limited, and the years included
-        self.cite_label1 = tk.Label(self.root, text="(ATTENTION) The data included in this program was copied from https://emeraldmediagroup.github.io/grade-data/", font=('Arial', 8))
+        self.cite_label1 = tk.Label(self.LandingPage, text="(ATTENTION) The data included in this program was copied from https://emeraldmediagroup.github.io/grade-data/", font=('Arial', 8), bg='green')
         self.cite_label1.pack(padx=10, pady=10)
 
-        self.cite_label2 = tk.Label(self.root, text='The data was initially copied on 01/15/2023, it includes class data from 2013-2016', font=('Arial', 8))
+        self.cite_label2 = tk.Label(self.LandingPage, text='The data was initially copied on 01/15/2023, it includes class data from 2013-2016', font=('Arial', 8), bg='green')
         self.cite_label2.pack(padx=10, pady=10)
 
         # Header explaining where data came from, how its limited, and the years included
-        self.cite_label3 = tk.Label(self.root, text='This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 8))
+        self.cite_label3 = tk.Label(self.LandingPage, text='This data is limited, not all courses are included "If your class doesnt show up here, it means the data was redacted"', font=('Arial', 8), bg='green')
         self.cite_label3.pack(padx=10, pady=10)
 
         # Header explaining where data came from, how its limited, and the years included
-        self.cite_label4 = tk.Label(self.root, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 8))
+        self.cite_label4 = tk.Label(self.LandingPage, text='- cited from the landing page of https://emeraldmediagroup.github.io/grade-data/', font=('Arial', 8), bg='green')
         self.cite_label4.pack(padx=10, pady=10)
 
         # GUI main loop
@@ -127,13 +135,15 @@ class GUI:
         """Function that contains the student user page data for the GUI"""
         
         # Student Page
-        UserPage = tk.Toplevel()
-        UserPage.title("EasyA/Student")
+        self.UserPage.pack(fill="both", expand=1)
+        self.LandingPage.pack_forget()
+        self.SysAdminPage.pack_forget()
+        self.UserPage.config(bg='green')
 
         #-----------------Course Selection Info Frame---------------------
 
         # Frame containing the info for course selection
-        course_info_frame = tk.LabelFrame(UserPage, text="Course Selection", font=('Arial', 16))
+        course_info_frame = tk.LabelFrame(self.UserPage, text="Course Selection", font=('Arial', 16))
         course_info_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
         # Department 
@@ -167,7 +177,7 @@ class GUI:
         #-----------------Graph Filter Frame---------------------
 
         # Frame containing all options to refine graph data
-        graph_filter_frame = tk.LabelFrame(UserPage, text="Graph Data Filter", font=('Arial', 16))
+        graph_filter_frame = tk.LabelFrame(self.UserPage, text="Graph Data Filter", font=('Arial', 16))
         graph_filter_frame.grid(row=2, column=0, sticky="news", padx=10, pady=10)
 
         # Instructor selection label
@@ -210,10 +220,13 @@ class GUI:
         #-----------------Generate Graph Button---------------------
 
         # Generate Graph Button
-        generate_graph_btn = tk.Button(UserPage, text="Generate Graph", font=('Arial', 20), command=self.generateGraph)
+        generate_graph_btn = tk.Button(self.UserPage, text="Generate Graph", font=('Arial', 20), command=self.generateGraph, highlightbackground='yellow')
         generate_graph_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
 
-    # Function to open the uploaded csv file
+        # Back Button
+        back_btn = tk.Button(self.UserPage, text="Back", font=('Arial', 20), command=self.backButton, highlightbackground='yellow')
+        back_btn.grid(row=4, column=0, sticky="ns", padx=20, pady=20)
+
     def open_file(self):
         """Function that allows the user to select and open a JSON file from their computer"""
         self.fp = filedialog.askopenfilename(initialdir='/Desktop', title='Select A File', filetypes=[('JSON Files', '*.json')])
@@ -242,7 +255,6 @@ class GUI:
             json.dump(oldData, newDataFile)
 
         # Closing file
-
         database.close()
         messagebox.showinfo('Info', 'Data Successfully Uploaded!')
 
@@ -250,13 +262,15 @@ class GUI:
         """Function that contains the system admin page data of the GUI"""
         
         #System admin page
-        SysAdminPage = tk.Toplevel()
-        SysAdminPage.title("EasyA/System Admin")
+        self.SysAdminPage.pack(fill="both", expand=1)
+        self.LandingPage.pack_forget()
+        self.UserPage.pack_forget()
+        self.SysAdminPage.config(bg='green')
 
         #-----------------Data Entry Frame---------------------
 
         # Frame containing file selection and data entry
-        data_entry_frame = tk.LabelFrame(SysAdminPage, text="Data Entry", font=('Arial', 16))
+        data_entry_frame = tk.LabelFrame(self.SysAdminPage, text="Data Entry", font=('Arial', 16))
         data_entry_frame.grid(row=1, column=0, sticky="news", padx=10, pady=10)
 
         # Upload Button Label
@@ -274,7 +288,18 @@ class GUI:
         #-----------------Enter Data Button---------------------
 
         # Enter Data Button
-        enter_data_btn = tk.Button(SysAdminPage, text="Enter Data", font=('Arial', 20), command=self.enter_data)
+        enter_data_btn = tk.Button(self.SysAdminPage, text="Enter Data", font=('Arial', 20), command=self.enter_data, highlightbackground='yellow')
         enter_data_btn.grid(row=3, column=0, sticky="ns", padx=20, pady=20)
+        
+        # Back Button
+        back_btn = tk.Button(self.SysAdminPage, text="Back", font=('Arial', 20), command=self.backButton, highlightbackground='yellow')
+        back_btn.grid(row=4, column=0, sticky="ns", padx=20, pady=20)
 
+
+    def backButton(self):
+        """Function to return to the landing page"""
+        self.LandingPage.pack(fill="both", expand=1)
+        self.SysAdminPage.pack_forget()
+        self.UserPage.pack_forget()
+        
 GUI()
