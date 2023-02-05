@@ -1,4 +1,4 @@
-###CS 442 EASYA GROUP PROJECT DESCRIPTION
+###CS 442 EASYA GROUP4 PROJECT DESCRIPTION
 This system allows students to check grade percentages from professors of a chosen course or course level and outputs a graph comparing professors or courses.
 The system also allows administrators to add new data to the system.
 
