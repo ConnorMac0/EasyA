@@ -14,6 +14,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 import json
+import create_graph as cg
 
 class GUI:
     """Graphical User Interface class that creates an interface for the 
@@ -34,9 +35,9 @@ class GUI:
 
         # Natural Science department names
         self.department = ["Anthropology", "Biology", "Chemistry and Biochemistry", "Computer Science", "Data Science", 
-                        "Earth Sciences", "Geography", "Human Physiology", "Mathematics", "Neuroscience", "Physics", "Psychology"]
+                        "Earth Sciences", "Geography", "Human Physiology", "Mathematics", "Physics", "Psychology"]
         # Department codes
-        self.dept_code = ["ANTH", "BI", "CH", "CIS", "DSCI", "GEOL", "GEOG", "HPHY", "MATH", "NEUR", "PHYS", "PSY"]
+        self.dept_code = ["ANTH", "BI", "CH", "CIS", "DSC", "GEOL", "GEOG", "HPHY", "MATH", "PHYS", "PSY"]
 
         # Course level options
         self.course_levels = ["All Department", "All 100-Level", "All 200-Level", "All 300-Level", "All 400-Level", "All 500-Level", "All 600-Level"]
@@ -106,14 +107,14 @@ class GUI:
         
         # Turning the selected department name into department code
         dept_code = self.department.index(self.select_dept.get())
-        #print(self.dept_code[dept_code])
 
         # Use course levels if no specific course number is given
         if self.specific_course.get() == '':
             if self.course_levels.index(self.select_level.get()) != 0:
+                cg.class_search(self.dept_code[dept_code] + str(self.course_levels.index(self.select_level.get())), self.mode.get(), self.fac_type.get(), self.class_count.get())
                 print(self.dept_code[dept_code] + str(self.course_levels.index(self.select_level.get())))
             else:
-                print(self.dept_code[dept_code])
+                cg.class_search(self.dept_code[dept_code], self.mode.get(), self.fac_type.get(), self.class_count.get())
 
         # Using specific course level only if it is not blank
         if self.specific_course.get() != '':
@@ -123,12 +124,7 @@ class GUI:
                 messagebox.showerror('Error', 'Invalid Course Number: Please Enter A 3 Digit Number Between 100-699')
                 return 0
 
-            print(self.dept_code[dept_code] + self.specific_course.get())
-        
-        # Mode and faculty type selection
-        print(self.mode.get())
-        print(self.fac_type.get())
-        print(self.class_count.get())
+            cg.class_search(self.dept_code[dept_code] + self.specific_course.get(), self.mode.get(), self.fac_type.get(), self.class_count.get())
 
     # Function containing student page
     def studentPage(self):
@@ -301,5 +297,5 @@ class GUI:
         self.LandingPage.pack(fill="both", expand=1)
         self.SysAdminPage.pack_forget()
         self.UserPage.pack_forget()
-        
+
 GUI()
