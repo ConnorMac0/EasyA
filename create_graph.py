@@ -1,8 +1,21 @@
 """
-Description:
-CS 422 Project 1, this file will read data from a JSON file
-and output a UI with a graph displaying the data for easy
-comparison.
+create_graph.py
+
+Purpose:
+CS 422 Project 1, this file be run by the GUI and will read
+data from a JSON file and output a UI with a graph displaying
+the data for easy comparison.
+
+Creation Date: 1/18/23
+
+Initial Authors: Blake Skelly & Garrett Bunkers
+
+Larger System:
+This file will be exclusively called by the GUI. When a user
+clicks the button to generate a graph, the function create_graph()
+will be used to properly collect data and display it on a graph.
+
+Last Date Modified: 2/4/23
 """
 
 # Import statements for creating and displaying graphs
@@ -12,12 +25,18 @@ import matplotlib.pyplot as plt
 matplotlib.use("TkAgg")
 
 
+# ---------------------------------------------------------------------------------------------------
+
+
 def convert_to_floats(arr):
     # Use the map function to apply the float function to each element in the input list
     result = map(float, arr)
 
     # Return the resulting iterator as a list
     return list(result)
+
+
+# ---------------------------------------------------------------------------------------------------
 
 
 def class_search(code, aorf, faculty, num_classes):
