@@ -13,7 +13,6 @@ import requests
 import json
 import time
 import random
-from urllib3.exceptions import NewConnectionError
 
 
 def extract_json(text):  # takes string and returns text sliced from first bracket to last bracket
