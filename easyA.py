@@ -112,7 +112,6 @@ class GUI:
         if self.specific_course.get() == '':
             if self.course_levels.index(self.select_level.get()) != 0:
                 cg.class_search(self.dept_code[dept_code] + str(self.course_levels.index(self.select_level.get())), self.mode.get(), self.fac_type.get(), self.class_count.get())
-                print(self.dept_code[dept_code] + str(self.course_levels.index(self.select_level.get())))
             else:
                 cg.class_search(self.dept_code[dept_code], self.mode.get(), self.fac_type.get(), self.class_count.get())
 
