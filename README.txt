@@ -26,6 +26,7 @@ Go to Installation_Instructions.pdf for how to compile and run the program
     CS 422 - SM - EasyA - Group #4 - Meeting Notes.pdf - Notes on meeting attendance and discussion
     class_database.json - file that contains UO grade data
     regular_faculty_names.txt - includes only the regular faculty names from UO
+    newData.json - includes new data to be added to system by administrator
 
     #.py FILES
     scrape_data.py - Python script that scrapes data from the UO class data webpage and puts it in a .txt file that contains all the class data in JSON format.
