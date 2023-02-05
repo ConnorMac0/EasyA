@@ -6,7 +6,7 @@ data in bar graph form.
 Author: Connor Maclachlan
 Group: Group #4
 Created: 01/25/2023
-Last Updated: 
+Last Updated: 02/04/2023
 """
 
 import tkinter as tk
