@@ -6,7 +6,7 @@ data in bar graph form.
 Author: Connor Maclachlan
 Group: Group #4
 Created: 01/25/2023
-Last Updated: 
+Last Updated: 02/04/2023
 """
 
 import tkinter as tk
@@ -232,7 +232,7 @@ class GUI:
             old Easy A database"""
 
         # Error checking to make sure a file was selected
-        if self.fp == None:
+        if self.fp == None or self.fp == '':
             messagebox.showerror('Error', 'Please Select A File To Upload')
             return 0
 
