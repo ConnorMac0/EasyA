@@ -231,7 +231,7 @@ class GUI:
             old Easy A database"""
 
         # Error checking to make sure a file was selected
-        if self.fp == None:
+        if self.fp == None or self.fp == '':
             messagebox.showerror('Error', 'Please Select A File To Upload')
             return 0
 
