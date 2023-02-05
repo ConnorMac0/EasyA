@@ -23,6 +23,7 @@ Go to Installation_Instructions.pdf for how to compile and run the program
     Installation_Instructions.pdf - Guide to compiling and running the program
     Programmer_Documentation.pdf - describes how the system works and major data structures
     User_Documentstion.pdf - descirbes how to accomplish specific tasks with the system
+    CS 422 - SM - EasyA - Group #4 - Meeting Notes.pdf - Notes on meeting attendance and discussion
     class_database.json - file that contains UO grade data
     regular_faculty_names.txt - includes only the regular faculty names from UO
 
